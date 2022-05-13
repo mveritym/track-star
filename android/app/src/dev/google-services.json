@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "615688507283",
+    "project_id": "trackstar-dev",
+    "storage_bucket": "trackstar-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615688507283:android:a6f8e877002908d948e266",
+        "android_client_info": {
+          "package_name": "com.mveritym.trackstar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615688507283-ertnravfrh6p3bcfcn3r19kcb7esa6vb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTMCDkW8bPTc2qvko9oZ7cmPvSoMgcCHM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "615688507283-ertnravfrh6p3bcfcn3r19kcb7esa6vb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "615688507283-bj40652u50n6a2q6ji424pq0navan6nq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mveritym.track-star"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
