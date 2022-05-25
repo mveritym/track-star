@@ -10,6 +10,7 @@ import '../../Events/event_widgets.dart';
 import '../../Events/events.dart';
 import 'package:track_star/User/user_provider.dart';
 import '../../app.dart';
+import '../../shared/firebase_events.dart';
 import '../models/add_plan_weeks_model.dart';
 
 class AddPlanWeeks extends StatelessWidget {
@@ -208,6 +209,7 @@ class AddEventFormSubmitButton extends StatelessWidget {
           if (addPlanWeeksModel.lastDaySelected) {
             if (addPlanWeeksModel.lastWeekSelected) {
               addPlanWeeksModel.plan.saveTrainingPlan();
+              FirebaseAnalytics.instance.logCustomEvent(FirebaseEvents.createNewPlan);
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const App()));
             } else {
               Navigator.push(

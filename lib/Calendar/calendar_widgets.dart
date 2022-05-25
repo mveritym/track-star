@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +6,7 @@ import 'package:track_star/Calendar/shared.dart';
 import 'package:track_star/Events/event_widgets.dart';
 import 'package:track_star/shared/date_utils.dart';
 import 'package:track_star/shared/app_metrics.dart';
+import '../shared/firebase_events.dart';
 import 'calendar_provider.dart';
 
 class CalendarWeek extends StatelessWidget {
@@ -216,6 +218,7 @@ class _WeekdayDetailState extends State<WeekdayDetail> with TickerProviderStateM
                   dimension: 40,
                   child: InkWell(
                     onTap: () {
+                      FirebaseAnalytics.instance.logCustomEvent(FirebaseEvents.startEditEvent);
                       CalendarProvider provider = context.read<CalendarProvider>();
                       provider.setEditingSelectedDay(true);
                     },
@@ -243,6 +246,7 @@ class _WeekdayDetailState extends State<WeekdayDetail> with TickerProviderStateM
                         _animationController.forward().then((_) {
                           widget.weekday.event!.setComplete(true);
                           widget.weekday.plan!.saveTrainingPlan();
+                          FirebaseAnalytics.instance.logCustomEvent(FirebaseEvents.completeEvent);
                         });
                       },
                       style: ElevatedButton.styleFrom(

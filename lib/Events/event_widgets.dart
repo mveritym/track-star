@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,7 @@ import 'package:track_star/Plans/models/plan.dart';
 import 'package:track_star/Calendar/calendar_provider.dart';
 import 'package:track_star/Calendar/shared.dart';
 import 'package:track_star/User/user_provider.dart';
+import 'package:track_star/shared/firebase_events.dart';
 
 class EventCard extends StatelessWidget {
   const EventCard({Key? key, required this.date, required this.child}) : super(key: key);
@@ -447,6 +449,7 @@ class EventFormSubmitButton extends StatelessWidget {
             }
 
             event?.plan!.savePlanUpdate();
+            FirebaseAnalytics.instance.logCustomEvent(FirebaseEvents.finishEditEvent);
             provider.setEditingSelectedDay(false);
           },
         ),

@@ -7,6 +7,8 @@ import 'package:track_star/Plans/models/plan.dart';
 import 'package:track_star/Plans/plan_widgets.dart';
 import 'package:track_star/shared/date_utils.dart';
 
+import '../../shared/firebase_events.dart';
+
 class EditPlanViewModel extends ChangeNotifier {
   Plan plan;
 
@@ -242,7 +244,10 @@ class PlanEditButton extends StatelessWidget {
               );
             } else {
               plan.events.removeWhere((event) => !event.date.inRange(plan.startDate, plan.endDate));
-              plan.savePlanUpdate().then((_) => Navigator.pop(context));
+              plan.savePlanUpdate().then((_) {
+                FirebaseAnalytics.instance.logCustomEvent(FirebaseEvents.editPlan);
+                Navigator.pop(context);
+              });
             }
           });
         }
@@ -263,7 +268,10 @@ class PlanDeleteButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         minimumSize: const Size.fromHeight(50),
       ),
-      onPressed: () => plan.delete().then((_) => Navigator.pop(context)),
+      onPressed: () => plan.delete().then((_) {
+        FirebaseAnalytics.instance.logCustomEvent(FirebaseEvents.deletePlan);
+        Navigator.pop(context);
+      }),
       child: const Text('Delete plan', style: TextStyle(color: Colors.red)),
     );
   }
