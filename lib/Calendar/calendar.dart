@@ -67,29 +67,41 @@ class CalendarHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Selector<CalendarProvider, SelectedDay>(
       selector: (_, provider) => provider.selectedDay,
-      builder: (context, selectedDay, child) {
+      builder: (context, selectedDay, child) => Consumer<UserSettingsProvider>(
+          builder: (context, userSettings, child)
+        {
+          Weekday weekday = selectedDay.weekday;
 
-        Weekday weekday = selectedDay.weekday;
+          String planName = weekday.plan?.name ?? 'No plan';
+          String planMiles = weekday.plan?.totalDistanceText(context, selectedDay.weekday.date) ?? '';
 
-        String planName = weekday.plan?.name ?? 'No plan';
-        String planMiles = weekday.plan?.totalDistanceText(context, selectedDay.weekday.date) ?? '';
+          String weekStart = formatter.format(weekday.date.getWeekStart());
+          String weekEnd = formatter.format(weekday.date.getWeekEnd());
 
-        String weekStart = formatter.format(weekday.date.getWeekStart());
-        String weekEnd = formatter.format(weekday.date.getWeekEnd());
-
-        return Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(planName, style: Theme.of(context).textTheme.headline5?.copyWith(fontWeight: FontWeight.bold)),
-              Text(weekStart + " – " + weekEnd, style: Theme.of(context).textTheme.headline6),
-              const SizedBox(height: 8),
-              Text(planMiles, style: Theme.of(context).textTheme.headline6),
-            ],
-          ),
-        );
-      }
+          return Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(planName, style: Theme
+                    .of(context)
+                    .textTheme
+                    .headline5
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+                Text(weekStart + " – " + weekEnd, style: Theme
+                    .of(context)
+                    .textTheme
+                    .headline6),
+                const SizedBox(height: 8),
+                Text(planMiles, style: Theme
+                    .of(context)
+                    .textTheme
+                    .headline6),
+              ],
+            ),
+          );
+        }
+      )
     );
   }
 }
