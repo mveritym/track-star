@@ -37,18 +37,26 @@ class AddPlanWeeks extends StatelessWidget {
                 ),
                 ChangeNotifierProvider<AddPlanWeeksModel>.value(value: provider),
               ],
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Enter your plan details',
-                    style: Theme.of(context).textTheme.headline4
-                  ),
-                  const AddPlanEventsHeader(),
-                  const SizedBox(height: 8),
-                  const WeekNameLabels(),
-                  const AddPlanWeek(),
-                ],
+              child: GestureDetector(
+                onTap: () {
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (!currentFocus.hasPrimaryFocus) {
+                    currentFocus.unfocus();
+                  }
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Enter your plan details',
+                      style: Theme.of(context).textTheme.headline4
+                    ),
+                    const AddPlanEventsHeader(),
+                    const SizedBox(height: 8),
+                    const WeekNameLabels(),
+                    const AddPlanWeek(),
+                  ],
+                ),
               ),
             )
         ),
