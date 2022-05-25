@@ -3,6 +3,11 @@ import 'package:track_star/Calendar/shared.dart';
 import 'package:track_star/Plans/models/plan.dart';
 import 'package:track_star/shared/date_utils.dart';
 
+class AddPlanError implements Exception {
+  String cause;
+  AddPlanError(this.cause);
+}
+
 class AddPlanWeeksModel extends ChangeNotifier {
 
   late Plan plan;
@@ -24,6 +29,11 @@ class AddPlanWeeksModel extends ChangeNotifier {
     var weekdays = _createWeekdays(plan, runDays);
     weeks = Week.weeksFromDays(weekdays);
     weeks.removeWhere((week) => week.weekdays.every((day) => day.type == WeekdayType.none));
+
+    if (weeks.isEmpty) {
+      throw(AddPlanError('Selected plan dates do not include selected days of the week to run'));
+    }
+
     selectedWeekIndex = 0;
     selectedDay = weeks[0].weekdays.firstWhere((day) => day.type != WeekdayType.none);
   }

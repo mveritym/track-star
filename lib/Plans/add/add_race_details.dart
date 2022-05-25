@@ -65,7 +65,19 @@ class RaceInputs extends StatelessWidget {
                       const SizedBox(height: 16),
                       PlanTypeInput(type: model.raceType, update: model.updateRaceType),
                       const SizedBox(height: 16),
-                      DateInput(title: 'Race date', date: model.endDate, update: model.updateEndDate),
+                      DateInput(
+                        title: 'Race date',
+                        date: model.endDate,
+                        update: model.updateEndDate,
+                        customValidate: (val) {
+                          if (model.endDate == null) { return 'Enter a race date'; }
+
+                          var now = DateTime.now();
+                          if (model.endDate!.isBefore(now) || model.endDate!.isSameDay(now)) {
+                            return 'Race date must be in the future';
+                          }
+                        },
+                      ),
                     ],
                   ),
                   ActionButton(

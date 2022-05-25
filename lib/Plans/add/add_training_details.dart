@@ -80,6 +80,15 @@ class TrainingInputs extends StatelessWidget {
                               title: 'Plan start date',
                               date: model.startDate,
                               update: model.updateStartDate,
+                              customValidate: (val) {
+                                if (model.startDate == null) { return 'Enter a start date'; }
+
+                                if (model.isRace && model.endDate != null) {
+                                  if (model.startDate!.isAfter(model.endDate!) || model.endDate!.isSameDay(model.startDate!)) {
+                                    return 'Start date must be after race date';
+                                  }
+                                }
+                              },
                             ),
                             showWeekInput ? const SizedBox(height: 32) : Container(),
                             showWeekInput ? IntegerInput(
@@ -138,13 +147,32 @@ class TrainingInputs extends StatelessWidget {
                                     }
                                 );
                               } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) {
-                                    var provider = AddPlanWeeksModel(model.runDays, newPlan);
-                                    return AddPlanWeeks(provider: provider);
-                                  }),
-                                );
+
+                                try {
+                                  var provider = AddPlanWeeksModel(model.runDays, newPlan);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => AddPlanWeeks(provider: provider)),
+                                  );
+                                } on AddPlanError catch (e) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(e.cause),
+                                        actions: [
+                                          TextButton(
+                                            child: const Text("OK"),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          )
+                                        ],
+                                      );
+                                    }
+                                  );
+                                }
+
                               }
                             });
                           },

@@ -125,11 +125,14 @@ class PlanIsRaceInput extends StatelessWidget {
 
 
 class DateInput extends StatelessWidget {
-  const DateInput({Key? key, required this.title, required this.date, required this.update}) : super(key: key);
+
+  const DateInput({Key? key, required this.title, required this.date, required this.update,
+  this.customValidate}) : super(key: key);
 
   final String title;
   final DateTime? date;
   final Function(DateTime) update;
+  final Function(void)? customValidate;
 
   @override
   Widget build(BuildContext context) {
@@ -151,8 +154,15 @@ class DateInput extends StatelessWidget {
             errorMaxLines: 2,
           ),
           validator: (String? val) {
-            return (val == null || val.isEmpty || val == 'null') ?
-            'Enter a date' : null;
+
+            var validateEmpty = ((val == null || val.isEmpty || val == 'null') ?
+              'Enter a date' : null);
+
+            if (customValidate != null) {
+              return customValidate!(val) ?? validateEmpty;
+            }
+
+            return validateEmpty;
           },
         ),
       ],
